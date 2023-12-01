@@ -72,9 +72,8 @@ export default function Home() {
         perPage: 20,
       },
     ]);
-    console.log(history.transfers);
     setAnalyzedTokens(history.token);
-    setHistory(history.transfers);
+    setHistory(history);
   };
 
   const handleSubmit = async (e) => {
@@ -147,6 +146,121 @@ export default function Home() {
                         </div>
                       </div>
                     )}
+                    {history.paginatedItems?.length > 0 && (
+                      <div className="relative overflow-x-auto justify-center w-full h-140 my-10 bg-teal-50 rounded px-4 py-2">
+                        <h1 className="text-xl font-bold mb-2">
+                          Transaction history for {history.token.name} (
+                          {history.token.symbol})
+                        </h1>
+                        <table className="min-w-full divide-y-4 divide-gray-200 text-sm">
+                          <thead>
+                            <tr>
+                              <th className="whitespace-nowrap py-4 text-left font-bold text-gray-1000">
+                                Block number
+                              </th>
+                              <th className="whitespace-nowrap py-4 text-left font-bold text-gray-900">
+                                Transaction type
+                              </th>
+                              <th className="whitespace-nowrap py-4 text-left font-bold text-gray-900">
+                                Date
+                              </th>
+                              <th className="whitespace-nowrap py-4 text-left font-bold text-gray-900">
+                                Time
+                              </th>
+                              <th className="whitespace-nowrap py-4 text-left font-bold text-gray-1000">
+                                From
+                              </th>
+                              <th className="whitespace-nowrap py-4 text-left font-bold text-gray-900">
+                                To
+                              </th>
+                              <th className="whitespace-nowrap py-4 text-left font-bold text-gray-900">
+                                Amount
+                              </th>
+                              <th className="whitespace-nowrap py-4 text-left font-bold text-gray-900">
+                                Link
+                              </th>
+                            </tr>
+                          </thead>
+                          <tbody className="divide-y divide-gray-200">
+                            {history.paginatedItems.map((item, index) => (
+                              <tr key={index}>
+                                <td className="py-4 whitespace-nowrap text-sm">
+                                  {item.blockNumber}
+                                </td>
+
+                                <td className="py-4 whitespace-nowrap text-sm text-gray-500">
+                                  {item.type}
+                                </td>
+                                <td className="py-4 whitespace-nowrap text-sm">
+                                  {item.timestamp.toLocaleString().slice(0, 10)}
+                                </td>
+                                <td className="py-4 whitespace-nowrap text-sm">
+                                  {item.timestamp
+                                    .toLocaleString()
+                                    .slice(11, 19)}
+                                </td>
+                                <td className="py-4 whitespace-nowrap">
+                                  <div className="flex items-center">
+                                    <div className="flex-shrink-0 h-10 w-10">
+                                      <img
+                                        className="h-10 w-10 rounded-full"
+                                        src={`https://robohash.org/${item.fromAddress}?set=set1`}
+                                        alt=""
+                                      />
+                                    </div>
+                                    <div className="ml-4">
+                                      <div className="text-sm font-medium text-gray-900">
+                                        {item.fromAddress.slice(0, 5)}...
+                                        {item.fromAddress.slice(35, 40)}
+                                      </div>
+                                    </div>
+                                  </div>
+                                </td>
+                                <td className="py-4 whitespace-nowrap">
+                                  <div className="flex items-center">
+                                    <div className="flex-shrink-0 h-10 w-10">
+                                      <img
+                                        className="h-10 w-10 rounded-full"
+                                        src={`https://robohash.org/${item.toAddress}?set=set1`}
+                                        alt=""
+                                      />
+                                    </div>
+                                    <div className="ml-4">
+                                      <div className="text-sm font-medium text-gray-900">
+                                        {item.toAddress.slice(0, 5)}...
+                                        {item.toAddress.slice(35, 40)}
+                                      </div>
+                                    </div>
+                                  </div>
+                                </td>
+                                <td className="py-4 whitespace-nowrap">
+                                  <div className="text-sm text-gray-900">
+                                    {item.receivedAmount != 0.0
+                                      ? `${utils.formatUnits(
+                                          item.receivedAmount,
+                                          analyzedTokens.decimals
+                                        )}`
+                                      : `${utils.formatUnits(
+                                          item.sentAmount,
+                                          analyzedTokens.decimals
+                                        )}`}
+                                  </div>
+                                </td>
+                                <td className="py-4 whitespace-nowrap text-sm text-blue-500">
+                                  <a
+                                    href={`https://etherscan.io/tx/${item.transactionHash}`}
+                                    target="_blank"
+                                    rel="noreferrer"
+                                  >
+                                    [View on Etherscan]
+                                  </a>
+                                </td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      </div>
+                    )}
                     {tokens?.length > 0 && (
                       <div className="relative overflow-x-auto justify-center w-full h-140 mt-10 mb-10 bg-blue-50 rounded px-4 py-2">
                         <h1 className="text-3xl font-bold">Tokens</h1>
@@ -170,15 +284,15 @@ export default function Home() {
                                 {token.name && (
                                   <>
                                     <td className="whitespace-nowrap font-bold py-4 text-blue-500">
-                                      {/* <button
+                                      <button
                                         onClick={(e) => {
                                           e.preventDefault();
                                           tokenHistory(token.address);
                                         }}
                                         className="font-bold"
-                                      > */}
-                                      {token.name}
-                                      {/* </button> */}
+                                      >
+                                        {token.name}
+                                      </button>
                                     </td>
                                     <td className="whitespace-nowrap py-4 text-gray-900">
                                       {token.symbol}
