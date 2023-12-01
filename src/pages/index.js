@@ -10,6 +10,7 @@ const inter = Inter({ subsets: ["latin"] });
 export default function Home() {
   const [tokens, setTokens] = useState([]);
   const [address, setAddress] = useState("");
+  const [eth, setEth] = useState("");
 
   const fetchTokens = async () => {
     if (!utils.isAddress(address)) {
@@ -48,15 +49,25 @@ export default function Home() {
     return tokens.result;
   };
 
+  const fetchEth = async () => {
+    const provider = new ethers.providers.JsonRpcProvider(
+      process.env.NEXT_PUBLIC_QUICKNODE_RPC
+    );
+    const eth = await provider.send("eth_getBalance", [address, "latest"]);
+    setEth(eth);
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setAddress(address);
+    fetchEth();
     fetchTokens()
       .then((data) => {
         setTokens(data);
       })
       .catch((error) => setTokens([]));
   };
+
   return (
     <>
       <Head>
