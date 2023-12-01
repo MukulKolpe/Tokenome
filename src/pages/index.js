@@ -3,6 +3,7 @@ import { useState } from "react";
 import Image from "next/image";
 import { Inter } from "next/font/google";
 import { ethers, utils } from "ethers";
+import Head from "next/head";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -20,7 +21,6 @@ export default function Home() {
     const tokens = await provider.send("qn_getWalletTokenBalance", [
       {
         wallet: address,
-
         contracts: [
           "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2", //WETH
           "0xdAC17F958D2ee523a2206206994597C13D831ec7", // USDT
@@ -58,5 +58,24 @@ export default function Home() {
         console.log(error);
       });
   };
-  return <div>Hello</div>;
+  return (
+    <>
+      <Head>
+        <title>Tokenome</title>
+        <meta
+          name="description"
+          content="Analyse the tokens in an ethereum wallet"
+        />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+      </Head>
+
+      <header className="bg-white shadow">
+        <div className="mx-auto max-w-7xl py-6 px-4 sm:px-6 lg:px-8">
+          <h1 className="text-3xl font-bold tracking-tight text-gray-900">
+            Tokenome
+          </h1>
+        </div>
+      </header>
+    </>
+  );
 }
