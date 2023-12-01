@@ -113,6 +113,20 @@ export default function Home() {
                     >
                       Show me the tokens!
                     </button>
+
+                    {eth && (
+                      <div className="block">
+                        <div className="relative mt-10 text-black-900 bg-green-200 rounded inline-block px-4 py-2">
+                          ETH balance:&nbsp;
+                          <strong>
+                            {(parseInt(eth, 16) / 1e18).toLocaleString(
+                              undefined,
+                              { minimumFractionDigits: 4 }
+                            )}
+                          </strong>
+                        </div>
+                      </div>
+                    )}
                     {tokens?.length > 0 && (
                       <div className="relative overflow-x-auto justify-center w-full h-140 mt-10 mb-10 bg-blue-50 rounded px-4 py-2">
                         <h1 className="text-3xl font-bold">Tokens</h1>
