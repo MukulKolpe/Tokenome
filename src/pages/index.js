@@ -14,6 +14,7 @@ export default function Home() {
   const fetchTokens = async () => {
     if (!utils.isAddress(address)) {
       alert("Please enter a valid ethereum address");
+      return;
     }
     const provider = new ethers.providers.JsonRpcProvider(
       process.env.NEXT_PUBLIC_QUICKNODE_RPC
@@ -44,7 +45,7 @@ export default function Home() {
       },
     ]);
     console.log(tokens);
-    return tokens;
+    return tokens.result;
   };
 
   const handleSubmit = async (e) => {
@@ -52,11 +53,9 @@ export default function Home() {
     setAddress(address);
     fetchTokens()
       .then((data) => {
-        setTokens(data.assets);
+        setTokens(data);
       })
-      .catch((error) => {
-        console.log(error);
-      });
+      .catch((error) => setTokens([]));
   };
   return (
     <>
@@ -103,6 +102,56 @@ export default function Home() {
                     >
                       Show me the tokens!
                     </button>
+                    {tokens?.length > 0 && (
+                      <div className="relative overflow-x-auto justify-center w-full h-140 mt-10 mb-10 bg-blue-50 rounded px-4 py-2">
+                        <h1 className="text-3xl font-bold">Tokens</h1>
+                        <table className="min-w-full divide-y-4 divide-gray-200 text-sm">
+                          <thead>
+                            <tr>
+                              <th className="whitespace-nowrap py-4 text-left font-bold text-gray-1000">
+                                Name
+                              </th>
+                              <th className="whitespace-nowrap py-4 text-left font-bold text-gray-900">
+                                Symbol
+                              </th>
+                              <th className="whitespace-nowrap py-4 text-left font-bold text-gray-900">
+                                Balance
+                              </th>
+                            </tr>
+                          </thead>
+                          <tbody className="divide-y divide-gray-200">
+                            {tokens.map((token, index) => (
+                              <tr key={index}>
+                                {token.name && (
+                                  <>
+                                    <td className="whitespace-nowrap font-bold py-4 text-blue-500">
+                                      {/* <button
+                                        onClick={(e) => {
+                                          e.preventDefault();
+                                          tokenHistory(token.address);
+                                        }}
+                                        className="font-bold"
+                                      > */}
+                                      {token.name}
+                                      {/* </button> */}
+                                    </td>
+                                    <td className="whitespace-nowrap py-4 text-gray-900">
+                                      {token.symbol}
+                                    </td>
+                                    <td className="whitespace-nowrap py-4 text-gray-900">
+                                      {utils.formatUnits(
+                                        token.totalBalance,
+                                        token.decimals
+                                      )}
+                                    </td>
+                                  </>
+                                )}
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>
