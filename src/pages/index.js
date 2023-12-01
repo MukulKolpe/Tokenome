@@ -76,6 +76,40 @@ export default function Home() {
           </h1>
         </div>
       </header>
+      <main>
+        <div className="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">
+          <form onSubmit={handleSubmit}>
+            <div class="space-y-12">
+              <div class="border-b border-gray-900/10 pb-12">
+                <div class="col-span-full">
+                  <label
+                    for="wallet-address"
+                    class="block text-l font-medium leading-6 text-gray-900"
+                  >
+                    Enter your address here 🎯
+                  </label>
+                  <div class="mt-2">
+                    <input
+                      onChange={(e) => setAddress(e.target.value)}
+                      type="text"
+                      id="wallet-address"
+                      size="50"
+                      maxLength="50"
+                      className="block rounded-md border-0 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 text-l leading-6 p-3 mb-2"
+                    />
+                    <button
+                      type="submit"
+                      className="rounded-lg top-1 right-1 bottom-1 border w-48 text-sm justify-center bg-blue-400 text-white p-3 font-bold"
+                    >
+                      Show me the tokens!
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </main>
     </>
   );
 }
