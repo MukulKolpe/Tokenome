@@ -11,6 +11,8 @@ export default function Home() {
   const [tokens, setTokens] = useState([]);
   const [address, setAddress] = useState("");
   const [eth, setEth] = useState("");
+  const [history, setHistory] = useState([]);
+  const [analyzedTokens, setAnalyzedTokens] = useState([]);
 
   const fetchTokens = async () => {
     if (!utils.isAddress(address)) {
@@ -55,6 +57,24 @@ export default function Home() {
     );
     const eth = await provider.send("eth_getBalance", [address, "latest"]);
     setEth(eth);
+  };
+
+  const tokenHistory = async (token) => {
+    const provider = new ethers.providers.JsonRpcProvider(
+      process.env.NEXT_PUBLIC_QUICKNODE_RPC
+    );
+
+    const history = await provider.send("qn_getWalletTokenTransactions", [
+      {
+        address: address,
+        contract: token,
+        page: 1,
+        perPage: 20,
+      },
+    ]);
+    console.log(history.transfers);
+    setAnalyzedTokens(history.token);
+    setHistory(history.transfers);
   };
 
   const handleSubmit = async (e) => {
