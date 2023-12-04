@@ -90,7 +90,7 @@ export default function Home() {
   return (
     <>
       <Head>
-        <title>Tokenome</title>
+        <title>Tokenome💱</title>
         <meta
           name="description"
           content="Analyse the tokens in an ethereum wallet"
@@ -101,23 +101,23 @@ export default function Home() {
       <header className="bg-white shadow">
         <div className="mx-auto max-w-7xl py-6 px-4 sm:px-6 lg:px-8">
           <h1 className="text-3xl font-bold tracking-tight text-gray-900">
-            Tokenome
+            Tokenome💱
           </h1>
         </div>
       </header>
       <main>
         <div className="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">
           <form onSubmit={handleSubmit}>
-            <div class="space-y-12">
-              <div class="border-b border-gray-900/10 pb-12">
-                <div class="col-span-full">
+            <div className="space-y-12">
+              <div className="border-b border-gray-900/10 pb-12">
+                <div className="col-span-full">
                   <label
-                    for="wallet-address"
-                    class="block text-l font-medium leading-6 text-gray-900"
+                    htmlFor="wallet-address"
+                    className="block text-l font-medium leading-6 text-gray-900"
                   >
                     Enter your address here 🎯
                   </label>
-                  <div class="mt-2">
+                  <div className="mt-2">
                     <input
                       onChange={(e) => setAddress(e.target.value)}
                       type="text"
