@@ -4,6 +4,7 @@ import Image from "next/image";
 import { Inter } from "next/font/google";
 import { ethers, utils } from "ethers";
 import Head from "next/head";
+import { Tooltip } from "react-tooltip";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -135,7 +136,10 @@ export default function Home() {
 
                     {eth && (
                       <div className="block">
-                        <div className="relative mt-10 text-black-900 bg-green-200 rounded inline-block px-4 py-2">
+                        <div
+                          className="relative mt-10 text-black-900 bg-green-200 rounded inline-block px-4 py-2"
+                          data-tooltip-id="tooltip-token-balance"
+                        >
                           ETH balance:&nbsp;
                           <strong>
                             {(parseInt(eth, 16) / 1e18).toLocaleString(
@@ -144,6 +148,14 @@ export default function Home() {
                             )}
                           </strong>
                         </div>
+                        <Tooltip
+                          id="tooltip-token-balance"
+                          place="right"
+                          content={(parseInt(eth, 16) / 1e18).toLocaleString(
+                            undefined,
+                            { minimumFractionDigits: 4 }
+                          )}
+                        />
                       </div>
                     )}
                     {history.paginatedItems?.length > 0 && (
@@ -294,14 +306,17 @@ export default function Home() {
                                         {token.name}
                                       </button>
                                     </td>
+
                                     <td className="whitespace-nowrap py-4 text-gray-900">
-                                      {token.symbol}
+                                      <button>{token.symbol}</button>
                                     </td>
                                     <td className="whitespace-nowrap py-4 text-gray-900">
-                                      {utils.formatUnits(
-                                        token.totalBalance,
-                                        token.decimals
-                                      )}
+                                      <button>
+                                        {utils.formatUnits(
+                                          token.totalBalance,
+                                          token.decimals
+                                        )}
+                                      </button>
                                     </td>
                                   </>
                                 )}
