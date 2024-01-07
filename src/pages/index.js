@@ -97,6 +97,20 @@ export default function Home() {
           content="Analyse the tokens in an ethereum wallet"
         />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
+        {/* <!-- Google tag (gtag.js) --> */}
+        <script
+          async
+          src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS_ID}`}
+        ></script>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+          window.dataLayer = window.dataLayer || []; function gtag()
+          {dataLayer.push(arguments)}
+          gtag('js', new Date()); gtag('config', "${process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS_ID}");
+          `,
+          }}
+        ></script>
       </Head>
 
       <header className="bg-white shadow">
